@@ -1,7 +1,8 @@
 import cvFile from '@/assets/CV-video-editor.pdf';
 import LightProfile from '@/assets/bg-light.png';
 import DarkProfile from '@/assets/bg-black.png';
-import { Calendar, Film, Mail, MapPin, Moon, Palette, Play, Sun, X } from 'lucide-react';
+import { Calendar, Film, Mail, MapPin, Moon, Palette, Play, Sun, X,
+         Video, Megaphone, Share2, Sparkles, PenTool } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 
@@ -15,6 +16,10 @@ import Project6 from '@/assets/cod.jpeg';
 import Project7 from '@/assets/steak.jfif';
 import Project8 from '@/assets/sining.png';
 import Project9 from '@/assets/predebut.png';
+
+import ChatBot from '@/components/ChatBot';
+
+// Inside ProfileContent's return, just before the closing </div>:
 
 
 
@@ -78,6 +83,7 @@ const VideoPlayer = ({ videoUrl, title, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/95 backdrop-blur-sm">
+
       <div className="relative w-full max-w-4xl bg-black rounded-2xl overflow-hidden shadow-2xl">
         <button
           onClick={onClose}
@@ -146,6 +152,7 @@ const VideoCard = ({ project, onWatch, darkMode, aspect = 'video' }) => {
           <Play size={13} /> Watch Demo
         </button>
       </div>
+
     </div>
   );
 };
@@ -333,12 +340,19 @@ const VideosPageWrapper = () => {
           videos={vertical} onWatch={setSelectedVideo}
           darkMode={darkMode} aspect="vertical"
         />
+          <ChatBot darkMode={darkMode} />
       </div>
 
       <p className={`text-center text-xs pb-8 ${t.muted(darkMode)}`}>© {new Date().getFullYear()} Mark Quitaleg</p>
+
+<ChatBot darkMode={darkMode} />
     </div>
+
+
   );
+
 };
+
 
 // ─── Main Profile ─────────────────────────────────────────────────────────────
 const ProfileContent = () => {
@@ -411,13 +425,13 @@ const ProfileContent = () => {
     },
   ];
 
-  const skills = [
-    { icon: Film, label: "Film Editing",              sub: "Premiere Pro, Capcut, Color Grading" },
-    { icon: Film, label: "Commercial & Advertising",  sub: "Premiere Pro, Capcut" },
-    { icon: Film, label: "Social Media & Short-Form", sub: "Capcut, Premiere Pro, After Effects" },
-    { icon: Film, label: "Trailer & Promo Videos",    sub: "Premiere Pro, After Effects" },
-    { icon: Palette, label: "Graphics Design",        sub: "Photoshop, Canva, Illustrator" },
-  ];
+const skills = [
+  { icon: Video, label: "Film Editing",              sub: "Premiere Pro, Capcut, Color Grading" },
+  { icon: Megaphone, label: "Commercial & Advertising",  sub: "Premiere Pro, Capcut" },
+  { icon: Share2, label: "Social Media & Short-Form", sub: "Capcut, Premiere Pro, After Effects" },
+  { icon: Sparkles, label: "Trailer & Promo Videos",    sub: "Premiere Pro, After Effects" },
+  { icon: PenTool, label: "Graphics Design",        sub: "Photoshop, Canva, Illustrator" },
+];
 
   const experience = [
     { role: "Freelance Video Editor",       org: "WFH",            period: "2023 – Present" },
@@ -662,6 +676,7 @@ const ProfileContent = () => {
 
         <p className={`mt-6 text-center text-xs ${t.muted(darkMode)}`}>© {new Date().getFullYear()} Mark Quitaleg. All rights reserved.</p>
       </div>
+      <ChatBot darkMode={darkMode} />
     </div>
   );
 };
