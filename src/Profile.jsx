@@ -220,7 +220,7 @@ const ProfileContent = () => {
   const techStack = [
     { label: 'Video',  items: ['Premiere Pro', 'After Effects', 'Capcut', 'KineMaster'] },
     { label: 'Design', items: ['Photoshop', 'Canva', 'Illustrator', 'Figma', 'Lightroom'] },
-    { label: 'AI',     items: ['Freepik', 'Pixabay', 'Pexels', 'ChatGPT'] },
+    { label: 'Other',     items: ['Freepik', 'Pixabay', 'Pexels', 'ChatGPT'] },
   ];
 
   const skills = [
@@ -324,11 +324,11 @@ const ProfileContent = () => {
 
             <Section divider={t.divider}>
               <SectionLabel labelColor={t.sectionLabel}>About</SectionLabel>
-              <div className={`space-y-2.5 text-xs sm:text-sm leading-relaxed ${t.textSub}`}>
-                <p>A 4th-year Information Systems student completing OJT, with hands-on leadership as <span className={t.text}>Head of the Video Editing Team</span> in my school's multimedia organization.</p>
-                <p>Led a team of editors under tight deadlines — ensuring brand and story consistency across cinematic films, advertisements, commercials, and podcast post-production.</p>
-                <p>Delivered paid project work for external clients, bridging creative direction with efficient execution.</p>
-              </div>
+           <div className={`space-y-2.5 text-xs sm:text-sm leading-relaxed ${t.textSub}`}>
+  <p>Started in video editing through necessity, stayed for the craft. Now heading Media Production at my school's organization, overseeing everything from pre-production planning to final export across <span className={t.text}>films, commercials, and live event coverage.</span></p>
+  <p>On the freelance side, I work with clients on social media content, promotional videos, and digital projects where clear communication and clean execution matter as much as technical skill.</p>
+  <p>Alongside editing, I handle graphic design using <span className={t.text}>Photoshop, Illustrator, and Canva</span> for projects that need more than just footage. Currently finishing BS Information Systems at KLD as a consistent <span className={t.text}>Dean's Lister,</span> which sharpens the systems thinking I bring into every project.</p>
+</div>
             </Section>
 
             <Section divider={t.divider}>
