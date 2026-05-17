@@ -1,6 +1,6 @@
 
 import './App.css'
-import Profile from '@/components/Profile'
+import Profile from '@/Profile'
 
 function App() {
 

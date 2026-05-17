@@ -1,0 +1,113 @@
+// ─── src/data/projects.js ─────────────────────────────────────────────────────
+// Single source of truth for all portfolio projects.
+// Import this in both ProfileContent and VideosPageWrapper.
+//
+// Usage:
+//   import { projects, featuredProjects } from '@/data/projects';
+
+import ProjectVerticalnursing from '@/assets/nursing.png';
+import Project1 from '@/assets/UNEP-50-Logo-Blue-Eng-RGB.jpg';
+import Project2 from '@/assets/unicharm.png';
+import Project3 from '@/assets/car-1.jfif';
+import Project4 from '@/assets/kld-clc.png';
+import Project5 from '@/assets/novus-logo.png';
+import Project6 from '@/assets/cod.jpeg';
+import Project7 from '@/assets/steak.jfif';
+import Project8 from '@/assets/sining.png';
+import Project9 from '@/assets/predebut.png';
+
+export const projects = [
+  {
+    id: 1,
+    title: "United Nations Environment Programme",
+    description: "A video for UNEP to raise awareness about environmental issues.",
+    image: Project1,
+    video: "https://www.youtube.com/watch?v=AmVsHUE6duY",
+    technologies: ["Premiere Pro", "Capcut", "After Effects"],
+    category: "landscape",
+    featured: true,
+  },
+  {
+    id: 2,
+    title: "Mr and Ms Nursing 2025",
+    description: "Trailer video for our school's Mr and Ms Nursing 2025 event.",
+    image: ProjectVerticalnursing,
+    video: "https://www.youtube.com/watch?v=s10ZPlpj8Xs",
+    technologies: ["After Effects", "Premiere Pro"],
+    category: "landscape",
+    featured: false,
+  },
+  {
+    id: 3,
+    title: "Unicharm Logo Animation",
+    description: "Unicharm logo animation for our school project.",
+    image: Project2,
+    video: "https://www.youtube.com/watch?v=4OSYexflm7c",
+    technologies: ["After Effects", "Canva"],
+    category: "landscape",
+    featured: false,
+  },
+  {
+    id: 4,
+    title: "Car Montage",
+    description: "Car montage video for a client, showcasing various angles and features.",
+    image: Project3,
+    video: "https://www.youtube.com/shorts/MZD33qTNrRk",
+    technologies: ["After Effects", "Canva"],
+    category: "portrait",
+    featured: true,
+  },
+  {
+    id: 5,
+    title: "Wooden Horse Steakhouse",
+    description: "Promotional video for Wooden Horse Steakhouse, a local restaurant.",
+    image: Project7,
+    video: "https://youtube.com/shorts/VjaFiRqrL1w?feature=share",
+    technologies: ["After Effects", "Canva"],
+    category: "portrait",
+    featured: false,
+  },
+  {
+    id: 6,
+    title: "Mobile Legends & Call of Duty Teaser",
+    description: "A teaser video for our school's esports event.",
+    image: Project6,
+    video: "https://www.youtube.com/watch?v=_kdfjMOt5O",
+    technologies: ["After Effects", "Capcut"],
+    category: "landscape",
+    featured: false,
+  },
+  {
+    id: 7,
+    title: "Sining Malaya",
+    description: "A promotional video for Sining Malaya, our school's annual arts festival.",
+    image: Project8,
+    video: "https://www.youtube.com/watch?v=Hjy1DUXUEfA",
+    technologies: ["After Effects", "Capcut"],
+    category: "landscape",
+    featured: false,
+  },
+  {
+    id: 8,
+    title: "Pre-debut 18th Birthday",
+    description: "A pre-debut video for a client's 18th birthday, showcasing their journey.",
+    image: Project9,
+    video: "https://www.youtube.com/watch?v=6tRjti-g6f8",
+    technologies: ["After Effects", "Capcut"],
+    category: "landscape",
+    featured: false,
+  },
+  {
+    id: 9,
+    title: "NOVUS",
+    description: "Novus logo animation for our organization.",
+    image: Project5,
+    video: "https://youtu.be/k8ux459AR00",
+    technologies: ["After Effects", "Canva"],
+    category: "landscape",
+    featured: true,
+  },
+];
+
+// Top 3 shown on the main profile page
+export const featuredProjects = projects.filter(p => p.featured).slice(0, 3);

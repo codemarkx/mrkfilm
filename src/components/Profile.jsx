@@ -241,7 +241,7 @@ const VideosPageWrapper = () => {
   const projects = [
     {
       id: 1,
-      title: "Mr and Ms Nursing 2025 Trailer",
+      title: "Mr and Ms Nursing 2025 ",
       description: "Trailer video for our school's Mr and Ms Nursing 2025 event.",
       image: ProjectVerticalnursing,
       video: "https://www.youtube.com/watch?v=s10ZPlpj8Xs",

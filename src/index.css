@@ -1,13 +1,22 @@
 /* index.css */
 @import "tailwindcss";
 
-
-/* Add this for smooth transitions */
+/* Smooth transitions */
 * {
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
-/* Ensure html has dark class when needed */
+html,
+body,
+#root {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    /* No hardcoded color — React controls bg via inline style */
+    background-color: transparent;
+}
+
+/* Color scheme for browser UI (scrollbar, inputs, etc.) */
 .dark {
     color-scheme: dark;
 }
@@ -27,14 +36,11 @@
     pointer-events: none;
     z-index: -1;
     opacity: 0.03;
-    /* Very subtle */
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-/* Dark mode noise texture */
 .dark .noise-bg::before {
     opacity: 0.05;
-    /* Slightly more visible in dark mode */
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     filter: invert(1);
 }

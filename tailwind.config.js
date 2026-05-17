@@ -9,5 +9,9 @@ export default {
     theme: {
         extend: {},
     },
+    fontFamily: {
+        display: ['Syne', 'sans-serif'],
+        body: ['DM Sans', 'sans-serif'],
+    },
     plugins: [],
 }
