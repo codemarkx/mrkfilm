@@ -32,7 +32,7 @@ const mk = (d) => ({
   tag:          d ? 'bg-[#111111] text-[#555555]' : 'bg-[#e8e8e8] text-[#666666]',
   btnGhost:     d ? 'border border-[#222222] text-[#686868] hover:text-[#b0b0b0] hover:border-[#3a3a3a]'
                   : 'border border-[#d8d8d8] text-[#666666] hover:text-[#111111] hover:border-[#aaaaaa]',
-  accentBg:     d ? 'bg-[#408A71] text-[#000000] hover:bg-[#d6ff6e] font-semibold'
+accentBg: d ? 'bg-[#408A71] text-[#000000] hover:bg-[#2e2e2e] hover:text-[#b0b0b0] font-semibold'
                   : 'bg-[#111111] text-white hover:bg-[#333333] font-semibold',
   widgetBg:     d ? 'bg-[#0c0c0c]' : 'bg-white',
   widgetLabel:  d ? 'text-[#404040]' : 'text-[#aaaaaa]',

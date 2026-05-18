@@ -253,29 +253,47 @@ const ChatBot = ({ darkMode }) => {
         </div>
       </div>
 
-      {/* ── FAB ──────────────────────────────────────────────────────────────── */}
-      <button
-        onClick={() => setIsOpen(v => !v)}
-        aria-label="Toggle chat"
-        className={`
-          fixed bottom-6 right-4 sm:right-6 z-50
-          w-[52px] h-[52px] rounded-full overflow-hidden
-          transition-all duration-300 ease-out
-          hover:scale-105 active:scale-95
-          ${g.fab}
-        `}
+{/* ── FAB ──────────────────────────────────────────────────────────────── */}
+<button
+  onClick={() => setIsOpen(v => !v)}
+  aria-label="Toggle chat"
+  className={`
+    fixed bottom-6 right-4 sm:right-6 z-50
+    flex items-center gap-2
+    px-[18px] py-[10px] rounded-full
+    transition-all duration-300 ease-out
+    hover:scale-105 active:scale-95
+    ${g.fab}
+  `}
+>
+  {isOpen ? (
+    <>
+      <X size={18} className={darkMode ? "text-white/80" : "text-gray-600"} />
+      <span className={`text-sm font-medium ${darkMode ? "text-white/80" : "text-gray-700"}`}>
+        Close
+      </span>
+    </>
+  ) : (
+    <>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={18}
+        height={18}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke={darkMode ? "#408A71" : "#3b82f6"}
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
       >
-        {isOpen ? (
-          <div className={`w-full h-full flex items-center justify-center ${darkMode ? "bg-white/10" : "bg-black/5"}`}>
-            <X size={20} className={darkMode ? "text-white/80" : "text-gray-600"} />
-          </div>
-        ) : (
-          <>
-            <img src={avatar} alt="Chat with Mark's AI" className="w-full h-full object-cover" />
-
-          </>
-        )}
-      </button>
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+      </svg>
+      <span className={`text-sm font-medium ${darkMode ? "text-white/80" : "text-gray-700"}`}>
+        Chat with Mark
+      </span>
+    </>
+  )}
+</button>
     </>
   );
 };
