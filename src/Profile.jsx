@@ -32,7 +32,7 @@ const mk = (d) => ({
   tag:          d ? 'bg-[#111111] text-[#555555]' : 'bg-[#e8e8e8] text-[#666666]',
   btnGhost:     d ? 'border border-[#222222] text-[#686868] hover:text-[#b0b0b0] hover:border-[#3a3a3a]'
                   : 'border border-[#d8d8d8] text-[#666666] hover:text-[#111111] hover:border-[#aaaaaa]',
-accentBg: d ? 'bg-[#408A71] text-[#000000] hover:bg-[#2e2e2e] hover:text-[#b0b0b0] font-semibold'
+  accentBg:     d ? 'bg-[#408A71] text-[#000000] hover:bg-[#2e2e2e] hover:text-[#b0b0b0] font-semibold'
                   : 'bg-[#111111] text-white hover:bg-[#333333] font-semibold',
   widgetBg:     d ? 'bg-[#0c0c0c]' : 'bg-white',
   widgetLabel:  d ? 'text-[#404040]' : 'text-[#aaaaaa]',
@@ -148,9 +148,6 @@ const SectionLabel = ({ children, action, onAction, labelColor }) => (
 );
 
 // ─── Sidebar ──────────────────────────────────────────────────────────────────
-// FIX 1: space-y-5 → space-y-3 (removes the large gap between sidebar blocks)
-// FIX 2: items-center → items-start on skill rows (fixes mobile text misalignment)
-// FIX 3: p-3 → p-2.5 on widget cards (tightens inner padding to match reduced gap)
 const SidebarContent = ({ t, handleEmail, skills }) => (
   <div className="space-y-3">
     <div>
@@ -220,7 +217,7 @@ const ProfileContent = () => {
   const techStack = [
     { label: 'Video',  items: ['Premiere Pro', 'After Effects', 'Capcut', 'KineMaster'] },
     { label: 'Design', items: ['Photoshop', 'Canva', 'Illustrator', 'Figma', 'Lightroom'] },
-    { label: 'Other',     items: ['Freepik', 'Pixabay', 'Pexels', 'ChatGPT'] },
+    { label: 'Other',  items: ['Freepik', 'Pixabay', 'Pexels', 'ChatGPT'] },
   ];
 
   const skills = [
@@ -237,8 +234,9 @@ const ProfileContent = () => {
     { role: 'Vice President',             org: 'Multimedia Org', period: '2024 – 2025',    active: false },
   ];
 
+
   const education = [
-    { institution: 'Kolehiyo ng Lungsod ng Dasmariñas', degree: 'BS Information Systems',        period: '2022 – Present', note: "Dean's Lister" },
+    { institution: 'Kolehiyo ng Lungsod ng Dasmariñas', degree: 'BS Information Systems',        period: '2022 – Present', note: "Dean's Lister", active: true },
     { institution: 'Dasmarinas Integrated High School', degree: 'Humanities and Social Sciences', period: '2016 – 2022',    note: 'Graduated with honors' },
   ];
 
@@ -256,7 +254,7 @@ const ProfileContent = () => {
 
             {/* Left: avatar + stacked identity */}
             <div className="flex items-start gap-3 min-w-0 flex-1">
-           <div className="w-16 h-16 sm:w-24 sm:h-24 flex-shrink-0 overflow-hidden rounded-sm">
+              <div className="w-16 h-16 sm:w-24 sm:h-24 flex-shrink-0 overflow-hidden rounded-sm">
                 <img
                   src={darkMode ? DarkProfile : LightProfile}
                   alt="Mark Quitaleg"
@@ -322,15 +320,17 @@ const ProfileContent = () => {
           {/* Main content */}
           <div className="flex-1 min-w-0">
 
+            {/* About */}
             <Section divider={t.divider}>
               <SectionLabel labelColor={t.sectionLabel}>About</SectionLabel>
-           <div className={`space-y-2.5 text-xs sm:text-sm leading-relaxed ${t.textSub}`}>
-  <p>Started in video editing through necessity, stayed for the craft. Now heading Media Production at my school's organization, overseeing everything from pre-production planning to final export across <span className={t.text}>films, commercials, and live event coverage.</span></p>
-  <p>On the freelance side, I work with clients on social media content, promotional videos, and digital projects where clear communication and clean execution matter as much as technical skill.</p>
-  <p>Alongside editing, I handle graphic design using <span className={t.text}>Photoshop, Illustrator, and Canva</span> for projects that need more than just footage. Currently finishing BS Information Systems at KLD as a consistent <span className={t.text}>Dean's Lister,</span> which sharpens the systems thinking I bring into every project.</p>
-</div>
+              <div className={`space-y-2.5 text-xs sm:text-sm leading-relaxed ${t.textSub}`}>
+                <p>Started in video editing through necessity, stayed for the craft. Now heading Media Production at my school's organization, overseeing everything from pre-production planning to final export across <span className={t.text}>films, commercials, and live event coverage.</span></p>
+                <p>On the freelance side, I work with clients on social media content, promotional videos, and digital projects where clear communication and clean execution matter as much as technical skill.</p>
+                <p>Alongside editing, I handle graphic design using <span className={t.text}>Photoshop, Illustrator, and Canva</span> for projects that need more than just footage. Currently finishing BS Information Systems at KLD as a consistent <span className={t.text}>Dean's Lister,</span> which sharpens the systems thinking I bring into every project.</p>
+              </div>
             </Section>
 
+            {/* Tech Stack */}
             <Section divider={t.divider}>
               <SectionLabel labelColor={t.sectionLabel}>Tech Stack</SectionLabel>
               <div className="space-y-2.5">
@@ -349,6 +349,7 @@ const ProfileContent = () => {
               </div>
             </Section>
 
+            {/* Recent Projects */}
             <Section divider={t.divider}>
               <SectionLabel labelColor={t.sectionLabel} action="View All" onAction={() => navigate('/videos')}>
                 Recent Projects
@@ -360,38 +361,47 @@ const ProfileContent = () => {
               </div>
             </Section>
 
-            <Section divider={t.divider}>
-              <SectionLabel labelColor={t.sectionLabel}>Experience</SectionLabel>
-              <div>
-                {experience.map((e, i) => (
-                  <div key={i} className={`flex items-start gap-2.5 py-2.5 border-b ${t.rowBorder}`}>
-                    <div className={`w-3 h-3 mt-[3px] flex-shrink-0 rounded-sm border ${e.active ? t.activeBox : t.inactiveBox}`} />
-                    <div className="flex-1 min-w-0">
-                      <p className={`text-xs sm:text-sm font-medium ${t.textSub}`}>{e.role}</p>
-                      <p className={`text-[10px] ${t.textMuted}`}>{e.org}</p>
-                    </div>
-                    <span className={`text-[10px] flex-shrink-0 ${t.textMuted}`}>{e.period}</span>
-                  </div>
-                ))}
-              </div>
-            </Section>
+     {/* ── EXPERIENCE + EDUCATION — side by side ───────────────────── */}
+<Section divider={t.divider}>
+  <div className="grid grid-cols-2 gap-4">
 
-            <Section divider={t.divider}>
-              <SectionLabel labelColor={t.sectionLabel}>Education</SectionLabel>
-              <div>
-                {education.map((e, i) => (
-                  <div key={i} className={`flex items-start gap-2.5 py-2.5 border-b ${t.rowBorder}`}>
-                    <div className={`w-3 h-3 mt-[3px] flex-shrink-0 rounded-sm border ${t.inactiveBox}`} />
-                    <div className="flex-1 min-w-0">
-                      <p className={`text-xs sm:text-sm font-medium leading-snug ${t.textSub}`}>{e.institution}</p>
-                      <p className={`text-[10px] mt-0.5 ${t.textMuted}`}>{e.degree}</p>
-                      <p className={`text-[10px] mt-0.5 ${t.eduNote}`}>{e.note}</p>
-                    </div>
-                    <span className={`text-[10px] flex-shrink-0 ${t.textMuted}`}>{e.period}</span>
-                  </div>
-                ))}
-              </div>
-            </Section>
+    {/* Experience */}
+    <div className="text-left">
+      <SectionLabel labelColor={t.sectionLabel}>Experience</SectionLabel>
+      <div>
+        {experience.map((e, i) => (
+          <div key={i} className={`flex items-start gap-2 py-2 border-b ${t.rowBorder}`}>
+            <div className={`w-2.5 h-2.5 mt-[3px] flex-shrink-0 rounded-sm border ${e.active ? t.activeBox : t.inactiveBox}`} />
+            <div className="min-w-0 text-left">
+              <p className={`text-[11px] font-medium leading-snug ${t.textSub}`}>{e.role}</p>
+              <p className={`text-[10px] ${t.textMuted}`}>{e.org}</p>
+              <p className={`text-[10px] ${t.textMuted}`}>{e.period}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* Education */}
+    <div className="text-left">
+      <SectionLabel labelColor={t.sectionLabel}>Education</SectionLabel>
+      <div>
+        {education.map((e, i) => (
+          <div key={i} className={`flex items-start gap-2 py-2 border-b ${t.rowBorder}`}>
+         <div className={`w-2.5 h-2.5 mt-[3px] flex-shrink-0 rounded-sm border ${e.active ? t.activeBox : t.inactiveBox}`} />
+            <div className="min-w-0 text-left">
+              <p className={`text-[11px] font-medium leading-snug ${t.textSub}`}>{e.institution}</p>
+              <p className={`text-[10px] mt-0.5 ${t.textMuted}`}>{e.degree}</p>
+              <p className={`text-[10px] mt-0.5 ${t.eduNote}`}>{e.note}</p>
+              <p className={`text-[10px] ${t.textMuted}`}>{e.period}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</Section>
 
             {/* Sidebar flows inline on mobile — no drawer */}
             <div className="lg:hidden">

@@ -1,6 +1,6 @@
 // ─── src/components/ChatBot.jsx ──────────────────────────────────────────────
 import { useState, useRef, useEffect } from "react";
-import { X, Send, Loader2, ChevronDown } from "lucide-react";
+import { X, Send, Loader2, MessageSquare, ChevronDown } from "lucide-react";
 import LightProfile from "@/assets/bg-light.png";
 import DarkProfile  from "@/assets/bg-black.png";
 
@@ -52,7 +52,7 @@ const ChatBot = ({ darkMode }) => {
   const [input,     setInput]     = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [messages,  setMessages]  = useState([
-    { role: "assistant", content: "Hey! 👋 I'm Mark's AI assistant. Ask me anything about his work or how to get in touch!" },
+    { role: "assistant", content: "Hey! I'm Mark's assistant. Ask me anything about his work or how to get in touch." },
   ]);
 
   const bottomRef = useRef(null);
@@ -89,114 +89,108 @@ const ChatBot = ({ darkMode }) => {
 
   const avatar = darkMode ? DarkProfile : LightProfile;
 
+  // ── tokens mirroring mk() from Profile.jsx ──────────────────────────────
   const g = darkMode ? {
-    panel:      "bg-[rgba(18,18,24,0.75)] border border-white/10 backdrop-blur-[40px]",
-    shadow:     "shadow-[0_40px_100px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.07)]",
-    header:     "bg-white/[0.04] border-b border-white/[0.07]",
-    body:       "",
-    aiBubble:   "bg-white/[0.09] border border-white/[0.08] text-white/90",
-    userBubble: "bg-[rgba(56,100,255,0.55)] border border-blue-400/20 text-white",
-    inputBar:   "bg-white/[0.04] border-t border-white/[0.07]",
-    inputField: "bg-white/[0.08] border border-white/[0.1] text-white placeholder-white/25 focus:border-white/25 focus:bg-white/[0.12]",
-    sendBtn:    "bg-white/[0.12] hover:bg-white/[0.2] text-white disabled:opacity-25",
-    nameColor:  "text-white",
-    subColor:   "text-white/35",
-    brand:      "text-white/15",
-    closeBtn:   "text-white/30 hover:text-white/70 hover:bg-white/[0.08]",
-    dotBorder:  "ring-[#12121a]",
-    fab:        "bg-[rgba(18,18,24,0.8)] border border-white/12 backdrop-blur-[30px] shadow-[0_8px_32px_rgba(0,0,0,0.6)]",
-    scrollThumb:"rgba(255,255,255,0.12)",
-    typingDot:  "bg-white/40",
+    panel:       "bg-[#0a0a0a] border border-[#191919]",
+    header:      "border-b border-[#111111]",
+    aiBubble:    "bg-[#0d0d0d] border border-[#111111] text-[#c0c0c0]",
+    userBubble:  "bg-[#408A71] text-[#000000]",
+    inputBar:    "border-t border-[#111111]",
+    inputField:  "bg-[#0d0d0d] border border-[#1a1a1a] text-[#c0c0c0] placeholder-[#333333] focus:border-[#2a2a2a]",
+    sendBtn:     "bg-[#408A71] hover:bg-[#357a62] text-[#000000] disabled:opacity-30 disabled:cursor-not-allowed",
+    nameColor:   "text-[#e8e8e8]",
+    subColor:    "text-[#404040]",
+    brand:       "text-[#282828]",
+    closeBtn:    "text-[#444444] hover:text-[#888888] border border-[#1a1a1a] hover:border-[#333333]",
+    dot:         "bg-[#408A71]",
+    fab:         "bg-[#0a0a0a] border border-[#1a1a1a] text-[#686868] hover:text-[#b0b0b0] hover:border-[#3a3a3a]",
+    fabIcon:     "#408A71",
+    scrollThumb: "rgba(255,255,255,0.05)",
+    typingDot:   "bg-[#333333]",
+    shadow:      "shadow-[0_8px_40px_rgba(0,0,0,0.8)]",
   } : {
-    panel:      "bg-[rgba(255,255,255,0.72)] border border-black/[0.06] backdrop-blur-[40px]",
-    shadow:     "shadow-[0_40px_100px_rgba(0,0,0,0.10),inset_0_1px_0_rgba(255,255,255,0.9)]",
-    header:     "bg-white/50 border-b border-black/[0.05]",
-    body:       "",
-    aiBubble:   "bg-white/80 border border-black/[0.06] text-gray-800",
-    userBubble: "bg-blue-500 border border-blue-400/20 text-white",
-    inputBar:   "bg-white/40 border-t border-black/[0.05]",
-    inputField: "bg-white/70 border border-black/[0.07] text-gray-800 placeholder-gray-400/60 focus:border-blue-400/40 focus:bg-white/90",
-    sendBtn:    "bg-blue-500 hover:bg-blue-600 text-white disabled:opacity-30",
-    nameColor:  "text-gray-900",
-    subColor:   "text-gray-400",
-    brand:      "text-gray-300",
-    closeBtn:   "text-gray-400 hover:text-gray-600 hover:bg-black/[0.04]",
-    dotBorder:  "ring-white",
-    fab:        "bg-white/75 border border-white backdrop-blur-[30px] shadow-[0_8px_32px_rgba(0,0,0,0.10)]",
-    scrollThumb:"rgba(0,0,0,0.10)",
-    typingDot:  "bg-gray-400/60",
+    panel:       "bg-[#f4f4f4] border border-[#e2e2e2]",
+    header:      "border-b border-[#ebebeb]",
+    aiBubble:    "bg-white border border-[#ebebeb] text-[#222222]",
+    userBubble:  "bg-[#111111] text-white",
+    inputBar:    "border-t border-[#ebebeb]",
+    inputField:  "bg-white border border-[#e2e2e2] text-[#222222] placeholder-[#bbbbbb] focus:border-[#aaaaaa]",
+    sendBtn:     "bg-[#111111] hover:bg-[#333333] text-white disabled:opacity-30 disabled:cursor-not-allowed",
+    nameColor:   "text-[#0a0a0a]",
+    subColor:    "text-[#aaaaaa]",
+    brand:       "text-[#cccccc]",
+    closeBtn:    "text-[#aaaaaa] hover:text-[#444444] border border-[#e2e2e2] hover:border-[#aaaaaa]",
+    dot:         "bg-[#408A71]",
+    fab:         "bg-[#f4f4f4] border border-[#d8d8d8] text-[#666666] hover:text-[#111111] hover:border-[#aaaaaa]",
+    fabIcon:     "#111111",
+    scrollThumb: "rgba(0,0,0,0.07)",
+    typingDot:   "bg-[#cccccc]",
+    shadow:      "shadow-[0_4px_24px_rgba(0,0,0,0.08)]",
   };
 
   return (
     <>
       <style>{`
-        .iphonechat-scroll::-webkit-scrollbar { width: 3px; }
-        .iphonechat-scroll::-webkit-scrollbar-track { background: transparent; }
-        .iphonechat-scroll::-webkit-scrollbar-thumb {
-          background: ${g.scrollThumb};
-          border-radius: 99px;
-        }
-        .iphonechat-scroll { scrollbar-width: thin; scrollbar-color: ${g.scrollThumb} transparent; }
+        .chatscroll::-webkit-scrollbar { width: 2px; }
+        .chatscroll::-webkit-scrollbar-track { background: transparent; }
+        .chatscroll::-webkit-scrollbar-thumb { background: ${g.scrollThumb}; border-radius: 99px; }
+        .chatscroll { scrollbar-width: thin; scrollbar-color: ${g.scrollThumb} transparent; }
       `}</style>
 
-      {/* ── Panel ────────────────────────────────────────────────────────────── */}
+      {/* ── Panel ──────────────────────────────────────────────────────────── */}
       <div
         className={`
           fixed right-4 sm:right-6 z-50
-          w-[calc(100vw-2rem)] sm:w-[340px]
-          rounded-[30px] overflow-hidden
+          w-[calc(100vw-2rem)] sm:w-[320px]
+          rounded-sm overflow-hidden
           ${g.panel} ${g.shadow}
-          transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]
+          transition-all duration-300 ease-out
           ${isOpen
             ? "opacity-100 translate-y-0 scale-100 pointer-events-auto"
-            : "opacity-0 translate-y-8 scale-[0.93] pointer-events-none"}
+            : "opacity-0 translate-y-4 scale-[0.97] pointer-events-none"}
         `}
-        style={{ bottom: "80px", maxHeight: "min(560px, calc(100vh - 100px))", display: "flex", flexDirection: "column" }}
+        style={{ bottom: "56px", maxHeight: "min(520px, calc(100vh - 80px))", display: "flex", flexDirection: "column" }}
       >
 
         {/* Header */}
-        <div className={`flex items-center justify-between px-4 py-3.5 ${g.header}`}>
-          <div className="flex items-center gap-3">
+        <div className={`flex items-center justify-between px-3.5 py-2.5 ${g.header}`}>
+          <div className="flex items-center gap-2.5">
             <div className="relative flex-shrink-0">
-              <img src={avatar} alt="Mark" className={`w-9 h-9 rounded-full object-cover ring-2 ring-white/20`} />
-              <span className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-green-400 ring-2 ${g.dotBorder}`} />
+              <img src={avatar} alt="Mark" className="w-7 h-7 rounded-sm object-cover" />
+              <span className={`absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full ${g.dot}`} />
             </div>
             <div>
-              <p className={`text-[13px] font-semibold leading-tight tracking-[-0.01em] ${g.nameColor}`}>
+              <p className={`text-[11px] font-semibold tracking-tight leading-tight ${g.nameColor}`}>
                 Mark's Assistant
               </p>
-              <p className={`text-[10px] mt-0.5 ${g.subColor}`}>AI · Always online</p>
+              <p className={`text-[9px] tracking-[0.1em] uppercase ${g.subColor}`}>AI · Online</p>
             </div>
           </div>
           <button
             onClick={() => setIsOpen(false)}
-            className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${g.closeBtn}`}
+            className={`p-1 rounded-sm transition-all ${g.closeBtn}`}
             aria-label="Close"
           >
-            <ChevronDown size={15} />
+            <ChevronDown size={11} />
           </button>
         </div>
 
         {/* Messages */}
         <div
-          className={`flex-1 overflow-y-auto px-4 py-4 space-y-3 iphonechat-scroll ${g.body}`}
+          className="flex-1 overflow-y-auto px-3.5 py-3 space-y-2.5 chatscroll"
           style={{ minHeight: 0 }}
         >
           {messages.map((msg, i) => (
             <div key={i} className={`flex items-end gap-2 ${msg.role === "user" ? "flex-row-reverse" : "flex-row"}`}>
 
               {msg.role === "assistant" && (
-                <img src={avatar} alt="Mark" className="w-[22px] h-[22px] rounded-full object-cover flex-shrink-0 mb-0.5 ring-1 ring-white/15" />
+                <img src={avatar} alt="Mark" className="w-5 h-5 rounded-sm object-cover flex-shrink-0 mb-0.5" />
               )}
 
               <div
                 className={`
-                  max-w-[78%] px-3.5 py-2.5 text-[13px] leading-relaxed tracking-[-0.01em]
-                  backdrop-blur-sm
-                  ${msg.role === "user"
-                    ? `${g.userBubble} rounded-[18px] rounded-br-[5px]`
-                    : `${g.aiBubble} rounded-[18px] rounded-bl-[5px]`
-                  }
+                  max-w-[80%] px-3 py-2 text-[11px] leading-relaxed rounded-sm
+                  ${msg.role === "user" ? g.userBubble : g.aiBubble}
                 `}
               >
                 {msg.content}
@@ -204,15 +198,18 @@ const ChatBot = ({ darkMode }) => {
             </div>
           ))}
 
-          {/* Typing */}
+          {/* Typing indicator */}
           {isLoading && (
             <div className="flex items-end gap-2">
-              <img src={avatar} alt="Mark" className="w-[22px] h-[22px] rounded-full object-cover flex-shrink-0 ring-1 ring-white/15" />
-              <div className={`px-4 py-3 rounded-[18px] rounded-bl-[5px] backdrop-blur-sm ${g.aiBubble}`}>
-                <div className="flex items-center gap-1.5">
-                  {[0, 160, 320].map(delay => (
-                    <span key={delay} className={`w-1.5 h-1.5 rounded-full animate-bounce ${g.typingDot}`}
-                      style={{ animationDelay: `${delay}ms` }} />
+              <img src={avatar} alt="Mark" className="w-5 h-5 rounded-sm object-cover flex-shrink-0" />
+              <div className={`px-3 py-2.5 rounded-sm ${g.aiBubble}`}>
+                <div className="flex items-center gap-1">
+                  {[0, 150, 300].map(delay => (
+                    <span
+                      key={delay}
+                      className={`w-1 h-1 rounded-full animate-bounce ${g.typingDot}`}
+                      style={{ animationDelay: `${delay}ms` }}
+                    />
                   ))}
                 </div>
               </div>
@@ -223,77 +220,61 @@ const ChatBot = ({ darkMode }) => {
         </div>
 
         {/* Input */}
-        <div className={`px-3 pb-5 pt-3 ${g.inputBar}`}>
-          <div className="flex items-center gap-2">
+        <div className={`px-3 pb-3 pt-2.5 ${g.inputBar}`}>
+          <div className="flex items-center gap-1.5">
             <input
               ref={inputRef}
               type="text"
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={onKey}
-              placeholder="Message…"
+              placeholder="Ask something…"
               disabled={isLoading}
               className={`
-                flex-1 px-4 py-2.5 rounded-full text-[13px] outline-none
-                transition-all duration-200 backdrop-blur-sm
+                flex-1 px-2.5 py-1.5 rounded-sm text-[11px] outline-none
+                transition-all duration-150
                 ${g.inputField}
               `}
             />
             <button
               onClick={sendMessage}
               disabled={!input.trim() || isLoading}
-              className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-200 ${g.sendBtn}`}
+              className={`w-7 h-7 rounded-sm flex items-center justify-center flex-shrink-0 transition-all duration-150 ${g.sendBtn}`}
             >
-              {isLoading ? <Loader2 size={14} className="animate-spin" /> : <Send size={13} />}
+              {isLoading ? <Loader2 size={11} className="animate-spin" /> : <Send size={11} />}
             </button>
           </div>
-          <p className={`text-[9px] text-center mt-3 tracking-[0.2em] uppercase font-medium ${g.brand}`}>
-            Mark AI
+          <p className={`text-[8px] text-center mt-2 tracking-[0.2em] uppercase ${g.brand}`}>
+            Powered by Mark AI
           </p>
         </div>
       </div>
 
-{/* ── FAB ──────────────────────────────────────────────────────────────── */}
-<button
-  onClick={() => setIsOpen(v => !v)}
-  aria-label="Toggle chat"
-  className={`
-    fixed bottom-6 right-4 sm:right-6 z-50
-    flex items-center gap-2
-    px-[18px] py-[10px] rounded-full
-    transition-all duration-300 ease-out
-    hover:scale-105 active:scale-95
-    ${g.fab}
-  `}
->
-  {isOpen ? (
-    <>
-      <X size={18} className={darkMode ? "text-white/80" : "text-gray-600"} />
-      <span className={`text-sm font-medium ${darkMode ? "text-white/80" : "text-gray-700"}`}>
-        Close
-      </span>
-    </>
-  ) : (
-    <>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={18}
-        height={18}
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke={darkMode ? "#408A71" : "#3b82f6"}
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
+      {/* ── FAB ──────────────────────────────────────────────────────────────── */}
+      <button
+        onClick={() => setIsOpen(v => !v)}
+        aria-label="Toggle chat"
+        className={`
+          fixed bottom-5 right-4 sm:right-6 z-50
+          flex items-center gap-1.5
+          px-3 py-1.5 rounded-sm
+          text-[11px] font-medium
+          transition-all duration-200
+          ${g.fab}
+        `}
       >
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-      </svg>
-      <span className={`text-sm font-medium ${darkMode ? "text-white/80" : "text-gray-700"}`}>
-        Chat with Mark
-      </span>
-    </>
-  )}
-</button>
+        {isOpen ? (
+          <>
+            <X size={11} />
+            <span>Close</span>
+          </>
+        ) : (
+          <>
+            <MessageSquare size={11} color={g.fabIcon} />
+            <span>Ask about Mark</span>
+          </>
+        )}
+      </button>
     </>
   );
 };
