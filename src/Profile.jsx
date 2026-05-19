@@ -5,9 +5,9 @@ import LightProfile from '@/assets/bg-light.png';
 import DarkProfile from '@/assets/bg-black.png';
 import {
   Calendar, Mail, MapPin, Moon, Play, Sun, X,
-  Video, Megaphone, Share2, Sparkles, PenTool, ChevronRight,
+  Video, Megaphone, Share2, Sparkles, PenTool, ChevronRight, ChevronLeft,
 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import YouTube from 'react-youtube';
 
@@ -39,6 +39,8 @@ const mk = (d) => ({
   iconBg:       d ? 'bg-[#111111]'  : 'bg-[#eeeeee]',
   iconColor:    d ? 'text-[#4a4a4a] group-hover:text-[#909090]' : 'text-[#999999] group-hover:text-[#444444]',
   accentStat:   d ? 'text-[#408A71]' : 'text-[#111111]',
+  accentBgRaw:  d ? '#408A71' : '#111111',
+  mutedBgRaw:   d ? '#222222' : '#d8d8d8',
   activeBox:    d ? 'border-[#555555] bg-[#1a1a1a]' : 'border-[#888888] bg-[#e0e0e0]',
   inactiveBox:  d ? 'border-[#222222]' : 'border-[#d8d8d8]',
   eduNote:      d ? 'text-[#408A71]/50' : 'text-[#888888]',
@@ -147,6 +149,114 @@ const SectionLabel = ({ children, action, onAction, labelColor }) => (
   </div>
 );
 
+import BtsEditing from '@/assets/editing-session1.jfif';
+import BtsDark from '@/assets/reasearch.jfif';
+import BtsPhotographer from '@/assets/photographer.jfif';
+import BtsCertificate from '@/assets/certficate.jfif';
+import BtsSelf from '@/assets/self.jfif';
+const GALLERY_IMAGES = [
+  { src: BtsEditing, caption: 'Editing session' },
+  { src: BtsDark, caption: 'Awards' },
+  { src: BtsPhotographer, caption: 'Photographer' },
+  { src: BtsCertificate, caption: 'Certificate' },
+  { src: BtsSelf, caption: 'Self Portrait' },
+];
+
+const FilmstripGallery = ({ t }) => {
+  const trackRef = useRef(null);
+  const timerRef = useRef(null);
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  // Single effect owns the interval — restarts cleanly when paused changes
+  useEffect(() => {
+    if (paused) return;
+    timerRef.current = setInterval(() => {
+      setActive(prev => (prev + 1) % GALLERY_IMAGES.length);
+    }, 3000);
+    return () => clearInterval(timerRef.current); // always clears before next run
+  }, [paused]);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const item = track.children[active];
+    if (!item) return;
+    const offset = item.offsetLeft - track.offsetWidth / 2 + item.offsetWidth / 2;
+    track.scrollTo({ left: offset, behavior: 'smooth' });
+  }, [active]);
+
+  const prev = () => {
+    setActive(i => (i - 1 + GALLERY_IMAGES.length) % GALLERY_IMAGES.length);
+  };
+  const next = () => {
+    setActive(i => (i + 1) % GALLERY_IMAGES.length);
+  };
+
+  return (
+    <div onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+
+      {/* Filmstrip track */}
+      <div
+        ref={trackRef}
+        className="flex gap-1.5 overflow-x-hidden"
+        style={{ scrollbarWidth: 'none' }}
+      >
+        {GALLERY_IMAGES.map((img, i) => (
+          <button
+            key={i}
+            onClick={() => setActive(i)}
+            style={{ height: '100px', flexShrink: 0, width: i === active ? '180px' : '68px', transition: 'width 0.4s ease, opacity 0.4s ease' }}
+            className={`relative overflow-hidden rounded-sm ${i === active ? 'opacity-100 grayscale-0' : 'opacity-30 grayscale hover:opacity-50'}`}
+          >
+            <img src={img.src} alt={img.caption} className="w-full h-full object-cover" loading="lazy" />
+            {i === active && (
+              <div className="absolute bottom-0 inset-x-0 px-2 py-1" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.6), transparent)' }}>
+                <p className="text-[9px] text-white/70 truncate">{img.caption}</p>
+              </div>
+            )}
+          </button>
+        ))}
+      </div>
+
+      {/* Controls */}
+      <div className="flex items-center justify-between mt-2.5">
+
+        {/* Dot indicators */}
+        <div className="flex items-center gap-1">
+          {GALLERY_IMAGES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActive(i)}
+              style={{
+                width: i === active ? '12px' : '4px',
+                height: '3px',
+                borderRadius: '2px',
+                transition: 'all 0.3s ease',
+                background: i === active ? t.accentBgRaw : t.mutedBgRaw,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Prev / counter / Next */}
+        <div className="flex items-center gap-1.5">
+          <button onClick={prev} className={`flex items-center justify-center w-6 h-6 rounded-sm transition-all ${t.btnGhost}`}>
+            <ChevronLeft size={10} />
+          </button>
+          <span className={`text-[10px] tabular-nums w-8 text-center ${t.textMuted}`}>
+            {active + 1}/{GALLERY_IMAGES.length}
+          </span>
+          <button onClick={next} className={`flex items-center justify-center w-6 h-6 rounded-sm transition-all ${t.btnGhost}`}>
+            <ChevronRight size={10} />
+          </button>
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
 // ─── Sidebar ──────────────────────────────────────────────────────────────────
 const SidebarContent = ({ t, handleEmail, skills }) => (
   <div className="space-y-3">
@@ -158,7 +268,7 @@ const SidebarContent = ({ t, handleEmail, skills }) => (
             <div className={`w-5 h-5 flex-shrink-0 flex items-center justify-center rounded-sm mt-0.5 ${t.iconBg}`}>
               <s.icon size={10} className={`transition-colors ${t.iconColor}`} />
             </div>
-            <div className="min-w-0 flex-1 text-center">
+            <div className="min-w-0 flex-1 text-left">
               <p className={`text-[11px] font-medium leading-tight truncate ${t.textSub}`}>{s.label}</p>
               <p className={`text-[10px] leading-tight truncate ${t.textMuted}`}>{s.sub}</p>
             </div>
@@ -229,15 +339,14 @@ const ProfileContent = () => {
   ];
 
   const experience = [
-    { role: 'Freelance Video Editor',     org: 'WFH',            period: '2023 – Present', active: true },
+    { role: 'Freelance Video Editor',     org: 'WFH',            period: '2023 – Present', active: true  },
     { role: 'Head Of Video Editing Team', org: 'Organization',   period: '2023 – 2024',    active: false },
     { role: 'Vice President',             org: 'Multimedia Org', period: '2024 – 2025',    active: false },
   ];
 
-
   const education = [
-    { institution: 'Kolehiyo ng Lungsod ng Dasmariñas', degree: 'BS Information Systems',        period: '2022 – Present', note: "Dean's Lister", active: true },
-    { institution: 'Dasmarinas Integrated High School', degree: 'Humanities and Social Sciences', period: '2016 – 2022',    note: 'Graduated with honors' },
+    { institution: 'Kolehiyo ng Lungsod ng Dasmariñas', degree: 'BS Information Systems',        period: '2022 – Present', note: "Dean's Lister",        active: true  },
+    { institution: 'Dasmarinas Integrated High School', degree: 'Humanities and Social Sciences', period: '2016 – 2022',    note: 'Graduated with honors', active: false },
   ];
 
   return (
@@ -252,7 +361,6 @@ const ProfileContent = () => {
         <div className={`pb-6 border-b ${t.divider}`}>
           <div className="flex items-start justify-between gap-2">
 
-            {/* Left: avatar + stacked identity */}
             <div className="flex items-start gap-3 min-w-0 flex-1">
               <div className="w-16 h-16 sm:w-24 sm:h-24 flex-shrink-0 overflow-hidden rounded-sm">
                 <img
@@ -286,7 +394,6 @@ const ProfileContent = () => {
               </div>
             </div>
 
-            {/* Right: action buttons */}
             <div className="flex items-center gap-1 flex-shrink-0">
               <button
                 onClick={toggleDark}
@@ -314,10 +421,9 @@ const ProfileContent = () => {
           </div>
         </div>
 
-        {/* ── BODY: two-col on lg+, single col on mobile ─────────────────── */}
+        {/* ── BODY ──────────────────────────────────────────────────────────── */}
         <div className="flex gap-10 xl:gap-12 items-start">
 
-          {/* Main content */}
           <div className="flex-1 min-w-0">
 
             {/* About */}
@@ -361,49 +467,53 @@ const ProfileContent = () => {
               </div>
             </Section>
 
-     {/* ── EXPERIENCE + EDUCATION — side by side ───────────────────── */}
-<Section divider={t.divider}>
-  <div className="grid grid-cols-2 gap-4">
+            {/* Experience + Education side by side */}
+            <Section divider={t.divider}>
+              <div className="grid grid-cols-2 gap-4">
 
-    {/* Experience */}
-    <div className="text-left">
-      <SectionLabel labelColor={t.sectionLabel}>Experience</SectionLabel>
-      <div>
-        {experience.map((e, i) => (
-          <div key={i} className={`flex items-start gap-2 py-2 border-b ${t.rowBorder}`}>
-            <div className={`w-2.5 h-2.5 mt-[3px] flex-shrink-0 rounded-sm border ${e.active ? t.activeBox : t.inactiveBox}`} />
-            <div className="min-w-0 text-left">
-              <p className={`text-[11px] font-medium leading-snug ${t.textSub}`}>{e.role}</p>
-              <p className={`text-[10px] ${t.textMuted}`}>{e.org}</p>
-              <p className={`text-[10px] ${t.textMuted}`}>{e.period}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+                <div className="text-left">
+                  <SectionLabel labelColor={t.sectionLabel}>Experience</SectionLabel>
+                  <div>
+                    {experience.map((e, i) => (
+                      <div key={i} className={`flex items-start gap-2 py-2 border-b ${t.rowBorder}`}>
+                        <div className={`w-2.5 h-2.5 mt-[3px] flex-shrink-0 rounded-sm border ${e.active ? t.activeBox : t.inactiveBox}`} />
+                        <div className="min-w-0 text-left">
+                          <p className={`text-[11px] font-medium leading-snug ${t.textSub}`}>{e.role}</p>
+                          <p className={`text-[10px] ${t.textMuted}`}>{e.org}</p>
+                          <p className={`text-[10px] ${t.textMuted}`}>{e.period}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
-    {/* Education */}
-    <div className="text-left">
-      <SectionLabel labelColor={t.sectionLabel}>Education</SectionLabel>
-      <div>
-        {education.map((e, i) => (
-          <div key={i} className={`flex items-start gap-2 py-2 border-b ${t.rowBorder}`}>
-         <div className={`w-2.5 h-2.5 mt-[3px] flex-shrink-0 rounded-sm border ${e.active ? t.activeBox : t.inactiveBox}`} />
-            <div className="min-w-0 text-left">
-              <p className={`text-[11px] font-medium leading-snug ${t.textSub}`}>{e.institution}</p>
-              <p className={`text-[10px] mt-0.5 ${t.textMuted}`}>{e.degree}</p>
-              <p className={`text-[10px] mt-0.5 ${t.eduNote}`}>{e.note}</p>
-              <p className={`text-[10px] ${t.textMuted}`}>{e.period}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+                <div className="text-left">
+                  <SectionLabel labelColor={t.sectionLabel}>Education</SectionLabel>
+                  <div>
+                    {education.map((e, i) => (
+                      <div key={i} className={`flex items-start gap-2 py-2 border-b ${t.rowBorder}`}>
+                        <div className={`w-2.5 h-2.5 mt-[3px] flex-shrink-0 rounded-sm border ${e.active ? t.activeBox : t.inactiveBox}`} />
+                        <div className="min-w-0 text-left">
+                          <p className={`text-[11px] font-medium leading-snug ${t.textSub}`}>{e.institution}</p>
+                          <p className={`text-[10px] mt-0.5 ${t.textMuted}`}>{e.degree}</p>
+                          <p className={`text-[10px] mt-0.5 ${t.eduNote}`}>{e.note}</p>
+                          <p className={`text-[10px] ${t.textMuted}`}>{e.period}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
-  </div>
-</Section>
+              </div>
+            </Section>
 
-            {/* Sidebar flows inline on mobile — no drawer */}
+            {/* Behind the Scenes Gallery */}
+            <Section divider={t.divider}>
+              <SectionLabel labelColor={t.sectionLabel}>Behind the Scenes</SectionLabel>
+              <FilmstripGallery t={t} />
+            </Section>
+
+            {/* Sidebar inline on mobile */}
             <div className="lg:hidden">
               <Section divider={t.divider}>
                 <SidebarContent t={t} handleEmail={handleEmail} skills={skills} />
